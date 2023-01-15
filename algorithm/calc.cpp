@@ -96,16 +96,51 @@ double grade(double *arr, int size, double g) {
     return loss;
 }
 
+double* grade(double *arr, int size, double g, bool yay) {
+    double loss = 999;
+    // Create arrays of the perumutations, but the doubles can also be the reciprocals
+    // For each element it can be in 3 states: exists, doesn't exist, or is a reciprocal
+    double* king = new double[size];
+    int* state = new int[size];
+    // Set all elements to 0
+    for (int i = 0; i < size; i++) {
+        state[i] = 0;
+    }
+    while (state[0] != -1) {
+        double *narr = impose(arr, size, state);
+        // Multiply all elements together
+        double product = 1;
+        for (int i = 0; i < size; i++) {
+            product *= narr[i];
+        }
+        // get diff squared
+        double diff = g - product;
+        diff *= diff;
+
+        if (diff < loss) {
+            king = narr;
+            loss = diff;
+        }
+
+        delete[] narr;
+
+        // increment
+        state = increment(state, size);
+    }
+    delete[] state;
+
+    return king;
+}
+
 double fitness(double *arr, int size, int g_start, int g_end, double g_step) {
-    double max = 0;
+    double total = 0;
+    int count = 0;
     for (double i = g_start; i < g_end; i += g_step) {
         double loss = grade(arr, size, i);
-        if (loss > max)
-        {
-            max = loss; 
-        }
+        total += loss;
+        count++;
     }
-    return max;
+    return total / count;
 }
 
 int* calc(int free, double presision) {
