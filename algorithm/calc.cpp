@@ -179,11 +179,11 @@ int* calc(int free, double presision) {
                 std::cout << raw[i] << " ";
             }
         }
-        arr = increment(arr, free, 50);
+        arr = increment(arr, free, 30);
         count++;
 
-        // Heartbeat for every 5000 iterations
-        if (count % 5000 == 0) {
+        // Heartbeat for every 10000 iterations
+        if (count % 10000 == 0) {
             std::cout << "Checked " << count << " combinations" << std::endl;
             std::cout << "Best Loss: " << loss << std::endl;
         }
